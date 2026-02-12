@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "color-match"
+version = "0.1.0"
+description = "Color Matching Module"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{name = "kaki"}]
+dependencies = [
+    "pillow",
+    "numpy",
+    "scipy",
+]
+
+[project.scripts]
+color-match = "color_match.color_match:main"
+
+[tool.setuptools]
+packages = ["color_match"]
+package-dir = {"color_match" = "source/color_match"}
+
