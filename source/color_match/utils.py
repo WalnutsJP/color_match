@@ -194,11 +194,13 @@ def LabtoXYZ(L, a, b) -> np.ndarray:
 
 
 def cov_sqrt_and_inv(cov: np.ndarray, eps: float = 1e-6) -> tuple[np.ndarray, np.ndarray]:
-    """共分散行列の平方根と逆平方根"""
+    """共分散行列の平方根と逆平方根を固有値分解で求める"""
     
-    # 対称行列として扱う
+    # 数値的安定化
     cov = cov.astype(np.float64)
     cov = cov + eps * np.eye(cov.shape[0])
+    
+    # 対称行列を V, λ に固有値分解
     w, v = np.linalg.eigh(cov)
     
     # 数値的安定化
@@ -216,19 +218,22 @@ def spd_mat_sqrt(A):
 
     A = V @ diag(λ) @ V.T
     A^{1/2} = V @ diag(√λ) @ V.T
+            = √λ @ V.T
     
     一般的には行列の平方根はscipy.linalg.sqrtm(A)で求めるが
     対称正定値行列の場合は固有値分解で求めた方が安定で高速
     """
 
-    # 対称行列を V, diag(λ) に固有値分解
+    # 対称行列を V, λ に固有値分解
     # (eigh()は高速・安定だが対称行列専用)
-    eigenvalues, V = np.linalg.eigh(A)
+    w, v = np.linalg.eigh(A)
 
     # 数値誤差で負になるのを防ぐ
-    eigenvalues = np.maximum(eigenvalues, 0)
-
-    return V @ np.diag(np.sqrt(eigenvalues)) @ V.T
+    w = np.maximum(w, 0)
+    
+    sqrt_w = np.sqrt(w)
+    sqrt = (v * sqrt_w) @ v.T
+    return sqrt
 
 
 def spd_mat_sqrt_inv(A):
@@ -236,16 +241,19 @@ def spd_mat_sqrt_inv(A):
     対称正定値(SPD)行列の逆平方根を固有値分解で求める
 
     A^{-1/2} = V @ diag(1/√λ) @ V.T
+             = 1/√λ @ V.T
 
     一般的には行列の平方根はnp.linalg.inv(scipy.linalg.sqrtm(A))で求めるが
     対称正定値行列の場合は固有値分解で求めた方が安定で高速
     """
 
-    # 対称行列を V, diag(λ) に固有値分解
+    # 対称行列を V, λ に固有値分解
     # (eigh()は高速・安定だが対称行列専用)
-    eigenvalues, V = np.linalg.eigh(A)
+    w, v = np.linalg.eigh(A)
 
     # 数値誤差で負になるのを防ぐ(0除算防止の為に eps を加える)
-    eigenvalues = np.maximum(eigenvalues, 1e-10)
+    w = np.maximum(w, 1e-10)
 
-    return V @ np.diag(1.0 / np.sqrt(eigenvalues)) @ V.T
+    sqrt_w = np.sqrt(w)
+    inv_sqrt = (v * (1.0 / sqrt_w)) @ v.T
+    return inv_sqrt
