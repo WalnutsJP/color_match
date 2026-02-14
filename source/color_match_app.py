@@ -35,8 +35,6 @@ class ColorMatchApp(TkinterDnD.Tk):
         self.title("Color Match")
         self.geometry("1000x400")
 
-        self._padding = 2
-
         # color_match の method / mode 選択肢（__init__.py の match() に合わせる）
         self._methods = ("hm", "reinhard", "mvgd", "mkl", "hm-mvgd-hm", "hm-mkl-hm")
         self._modes = ("rgb", "lab")
@@ -135,13 +133,12 @@ class ColorMatchApp(TkinterDnD.Tk):
         self.center_image_label.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.center_image_label.bind("<Button-3>", self._on_center_context_menu)
 
+        self._matched_image_cache = None  # カラーマッチング画像のキャッシュ
         self.center_original_image = None  # PIL Image (RGB)
         self.center_tkimage = None
         self._center_resize_job = None
         self._center_hq_job = None
         self._center_last_size = (0, 0)
-
-        self._matched_image_cache = {}  # カラーマッチング結果のキャッシュ (method, mode) -> ndarray
 
         # --- 右パネル ---
         self.right_frame = ttk.LabelFrame(self.main_frame, text="参照画像")
