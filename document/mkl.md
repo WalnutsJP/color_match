@@ -6,7 +6,7 @@
 
 最適輸送理論(Monge-Kantorovich理論)を応用したカラーマッチング手法
 
-元論文: [The linear Monge-Kantorovitch colour mapping for example-based colour transfer](https://www.researchgate.net/publication/4317833_The_linear_Monge-Kantorovitch_colour_mapping_for_example-based_colour_transfer?amp%3BenrichSource=Y292ZXJQYWdlOzQzMTc4MzM7QVM6OTcyMjY1NTQ2MDk2NzRAMTQwMDE5MjAyNTU4NA%3D%3D&amp%3Bel=1_x_3&amp%3B_esc=publicationCoverPdf) by F. Pitie, 2007
+公開元論文: [The linear Monge-Kantorovitch colour mapping for example-based colour transfer](https://www.researchgate.net/publication/4317833_The_linear_Monge-Kantorovitch_colour_mapping_for_example-based_colour_transfer?amp%3BenrichSource=Y292ZXJQYWdlOzQzMTc4MzM7QVM6OTcyMjY1NTQ2MDk2NzRAMTQwMDE5MjAyNTU4NA%3D%3D&amp%3Bel=1_x_3&amp%3B_esc=publicationCoverPdf) by F. Pitie, 2007
 
 --------------------------------------------------
 

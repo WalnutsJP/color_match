@@ -18,7 +18,7 @@ def match_rgb(src: np.ndarray, ref: np.ndarray) -> np.ndarray:
     mu_s = np.mean(s, axis=0)
     mu_r = np.mean(r, axis=0)
 
-    # 3x3の分散共分散行列を計算（ピクセルが行）
+    # 3x3の分散共分散行列を計算
     cov_s = np.cov(s, rowvar=False, bias=True)
     cov_r = np.cov(r, rowvar=False, bias=True)
 
@@ -26,7 +26,7 @@ def match_rgb(src: np.ndarray, ref: np.ndarray) -> np.ndarray:
     S_s_sqrt, S_s_inv_sqrt = utils.cov_sqrt_and_inv(cov_s)
 
     # MKLの変換行列Aを計算
-    middle = utils.mat_sqrt(S_s_sqrt @ cov_r @ S_s_sqrt)
+    middle = utils.spd_mat_sqrt(S_s_sqrt @ cov_r @ S_s_sqrt)
     A = S_s_inv_sqrt @ middle @ S_s_inv_sqrt
 
     # 色変換を適用

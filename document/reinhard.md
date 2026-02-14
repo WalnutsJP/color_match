@@ -6,7 +6,7 @@
 
 参照画像の色の統計的特性(平均と標準偏差)に合わせて入力画像を色変換する手法
 
-原論文: [Color transfer between images](https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf) by E.Reinhard, M.Adhikhmin, B.Gooch, P.Shirley (2001)
+公開元論文: [Color transfer between images](https://www.cs.tau.ac.il/~turkel/imagepapers/ColorTransfer.pdf) by E.Reinhard, M.Adhikhmin, B.Gooch, P.Shirley (2001)
 
 --------------------------------------------------
 

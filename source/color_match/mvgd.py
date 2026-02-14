@@ -22,23 +22,12 @@ def match_rgb(src: np.ndarray, ref: np.ndarray) -> np.ndarray:
     cov_s = np.cov(s, rowvar=False, bias=True)
     cov_r = np.cov(r, rowvar=False, bias=True)
     
-    # 共分散行列の平方根と逆平方根を計算（固有値分解を使用）
+    # 共分散行列の平方根と逆平方根を計算
     S_r_sqrt, _ = utils.cov_sqrt_and_inv(cov_r)
     _, S_s_inv_sqrt = utils.cov_sqrt_and_inv(cov_s)
     
-    if 0:
-        # Cholesky分解による変換行列Aを計算
-        L_s = np.linalg.cholesky(cov_s)
-        L_r = np.linalg.cholesky(cov_r)
-        A = L_r @ np.linalg.inv(L_s)
-    elif 0:
-        centered_r = r - mu_r
-        centered_s = s - mu_s
-        inv_cov_s = np.linalg.inv(cov_s)
-        A = centered_r.T @ centered_s @ inv_cov_s / s.shape[0]
-    else:
-        # MVGDの変換行列Aを計算
-        A = S_r_sqrt @ S_s_inv_sqrt
+    # MVGDの変換行列Aを計算
+    A = S_r_sqrt @ S_s_inv_sqrt
     
     # 色変換を適用
     mapped = ((s - mu_s) @ A.T) + mu_r

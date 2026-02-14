@@ -196,10 +196,6 @@ def LabtoXYZ(L, a, b) -> np.ndarray:
 def cov_sqrt_and_inv(cov: np.ndarray, eps: float = 1e-6) -> tuple[np.ndarray, np.ndarray]:
     """共分散行列の平方根と逆平方根"""
     
-    # 一般的には以下のようにして平方根と逆平方根を求めるが
-    # 固有値分解の方が安定で高速な為、そちらを採用
-    # return mat_sqrt(cov), mat_sqrt_inv(cov)
-    
     # 対称行列として扱う
     cov = cov.astype(np.float64)
     cov = cov + eps * np.eye(cov.shape[0])
@@ -214,23 +210,42 @@ def cov_sqrt_and_inv(cov: np.ndarray, eps: float = 1e-6) -> tuple[np.ndarray, np
     return sqrt, inv_sqrt
 
 
-def mat_sqrt(A):
+def spd_mat_sqrt(A):
     """
-    対称正定値行列の平方根
-    A = V @ diag(λ) @ V.T  →  A^{1/2} = V @ diag(√λ) @ V.T
-    """
-    eigenvalues, V = np.linalg.eigh(A)  # eighは対称行列専用(高速・安定)
-    eigenvalues = np.maximum(eigenvalues, 0)  # 数値誤差で負になるのを防ぐ
-    return V @ np.diag(np.sqrt(eigenvalues)) @ V.T
-    #return scipy.linalg.sqrtm(A)
+    対称正定値(SPD)行列の平方根を固有値分解で求める
 
+    A = V @ diag(λ) @ V.T
+    A^{1/2} = V @ diag(√λ) @ V.T
+    
+    一般的には行列の平方根はscipy.linalg.sqrtm(A)で求めるが
+    対称正定値行列の場合は固有値分解で求めた方が安定で高速
+    """
 
-def mat_sqrt_inv(A):
-    """
-    対称正定値行列の逆平方根
-    A^{-1/2} = V @ diag(1/√λ) @ V.T
-    """
+    # 対称行列を V, diag(λ) に固有値分解
+    # (eigh()は高速・安定だが対称行列専用)
     eigenvalues, V = np.linalg.eigh(A)
-    eigenvalues = np.maximum(eigenvalues, 1e-10)  # ゼロ除算を防ぐ
+
+    # 数値誤差で負になるのを防ぐ
+    eigenvalues = np.maximum(eigenvalues, 0)
+
+    return V @ np.diag(np.sqrt(eigenvalues)) @ V.T
+
+
+def spd_mat_sqrt_inv(A):
+    """
+    対称正定値(SPD)行列の逆平方根を固有値分解で求める
+
+    A^{-1/2} = V @ diag(1/√λ) @ V.T
+
+    一般的には行列の平方根はnp.linalg.inv(scipy.linalg.sqrtm(A))で求めるが
+    対称正定値行列の場合は固有値分解で求めた方が安定で高速
+    """
+
+    # 対称行列を V, diag(λ) に固有値分解
+    # (eigh()は高速・安定だが対称行列専用)
+    eigenvalues, V = np.linalg.eigh(A)
+
+    # 数値誤差で負になるのを防ぐ(0除算防止の為に eps を加える)
+    eigenvalues = np.maximum(eigenvalues, 1e-10)
+
     return V @ np.diag(1.0 / np.sqrt(eigenvalues)) @ V.T
-    #return np.linalg.inv(scipy.linalg.sqrtm(A))
