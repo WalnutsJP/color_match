@@ -12,7 +12,6 @@ authors = [{name = "kaki"}]
 dependencies = [
     "pillow",
     "numpy",
-    "scipy",
 ]
 
 [project.scripts]

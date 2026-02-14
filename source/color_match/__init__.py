@@ -10,14 +10,9 @@ from . import reinhard
 from . import mkl
 from . import mvgd
 
-def match(source: str, reference: str, output: str, method: str, mode: str):
+def match(src_img: np.ndarray, ref_img: np.ndarray, method: str, mode: str) -> np.ndarray:
     '''カラーマッチング'''
 
-    # 画像読み込み
-    src_img = np.array(Image.open(source).convert("RGB"))
-    ref_img = np.array(Image.open(reference).convert("RGB"))
-
-    # 色変換
     if method == "hm":
         if mode == "rgb":
             matched_img = hm.match_rgb(src_img, ref_img)
@@ -58,10 +53,9 @@ def match(source: str, reference: str, output: str, method: str, mode: str):
             matched_img = hm.match_lab_l(matched_img, ref_img)
     else:
         raise ValueError(f"不明な方法: {method}")
-
-    # 画像保存
+    
     matched_img = np.clip(matched_img, 0, 255).astype(np.uint8)
-    Image.fromarray(matched_img).save(output)
+    return matched_img
 
 
 def main() -> int:
@@ -69,15 +63,26 @@ def main() -> int:
 
     # 引数解析
     p = argparse.ArgumentParser(description="Color Matching")
-    p.add_argument("source", help="入力画像パス")
-    p.add_argument("reference", help="参照画像パス")
+    p.add_argument("source", nargs='?', help="入力画像パス")
+    p.add_argument("reference", nargs='?', help="参照画像パス")
     p.add_argument("-o", "--output", help="出力画像パス", default="./output.png")
     p.add_argument("-m", "--method", choices=("hm", "reinhard", "mvgd", "mkl", "hm-mvgd-hm", "hm-mkl-hm"), default="mkl")
     p.add_argument("--mode", choices=("rgb", "lab"), default="rgb")
     args = p.parse_args()
 
+    if not args.source or not args.reference:
+        p.error('source and reference are required')
+        return 1
+
+    # 画像読み込み
+    src_img = np.array(Image.open(args.source).convert("RGB"))
+    ref_img = np.array(Image.open(args.reference).convert("RGB"))
+
     # カラーマッチング
-    match(args.source, args.reference, args.output, args.method, args.mode)
+    matched_img = match(src_img, ref_img, args.method, args.mode)
+    
+    # 画像保存
+    Image.fromarray(matched_img).save(args.output)
     if os.path.exists(args.output):
         return 0
     else:
