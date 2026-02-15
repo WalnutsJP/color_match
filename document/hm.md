@@ -18,9 +18,7 @@
   累積分布関数(Cumulative Distribution Function)は確率変数がある値以下の値となる確率を表す関数です
 
 3. $CDF_{\text{src}}(x) \approx CDF_{\text{ref}}(y)$ となる $y$ を求めることで、入力画像 $x$ と $y$ の分布を揃えます:  
-  $$
-  y = CDF_{\text{ref}}^{-1}(CDF_{\text{src}}(x))
-  $$
+  $$y = CDF_{\text{ref}}^{-1}(CDF_{\text{src}}(x))$$
   ※実装では累積分布関数(CDF)の変換を LUT（Look-Up Table）ベースで処理
 
 --------------------------------------------------
