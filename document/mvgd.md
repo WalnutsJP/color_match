@@ -23,7 +23,7 @@ Multivariate Gaussian Distribution (MVGD)は、以下の考え方に基づいて
 
 3. 平均・共分散行列を利用して以下の計算で色変換  
   変換行列 $A$ は以下のように定義される：  
-  $$A = \boldsymbol{\Sigma}_{\text{ref}}^{1/2} \, \boldsymbol{\Sigma}_{\text{src}}^{-1/2}$$  
+  $$A = \boldsymbol{\Sigma}_{\text{ref}}^{1/2} \boldsymbol{\Sigma}_{\text{src}}^{-1/2}$$  
   色変換は以下の式で行われる：  
   $$I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \times A + \mu_{\text{ref}}$$
 
