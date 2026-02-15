@@ -16,15 +16,14 @@ Reinhardの色変換は、以下の考え方に基づいています：
 
 1. 対象画像と参照画像の**色の統計量**（平均値と標準偏差）を計算
 
-2. 平均と標準偏差を利用して以下の計算で色変換：
-   $$
-   I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \times \frac{\sigma_{\text{ref}}}{\sigma_{\text{src}}} + \mu_{\text{ref}}
-   $$
-   - $I_{\text{src}}$: 入力画像のピクセル値
-   - $\mu_{\text{src}}$: 入力画像の平均値
-   - $\mu_{\text{ref}}$: 参照画像の平均値
-   - $\sigma_{\text{src}}$: 入力画像の標準偏差
-   - $\sigma_{\text{ref}}$: 参照画像の標準偏差
+2. 平均と標準偏差を利用して以下の計算で色変換：  
+  $$I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \times \frac{\sigma_{\text{ref}}}{\sigma_{\text{src}}} + \mu_{\text{ref}}$$
+
+- $I_{\text{src}}$: 入力画像のピクセル値
+- $\mu_{\text{src}}$: 入力画像の平均値
+- $\mu_{\text{ref}}$: 参照画像の平均値
+- $\sigma_{\text{src}}$: 入力画像の標準偏差
+- $\sigma_{\text{ref}}$: 参照画像の標準偏差
 
 --------------------------------------------------
 

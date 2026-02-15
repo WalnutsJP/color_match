@@ -22,14 +22,10 @@ Multivariate Gaussian Distribution (MVGD)は、以下の考え方に基づいて
 2. 共分散行列の平方根・逆平方根を計算
 
 3. 平均・共分散行列を利用して以下の計算で色変換  
-  変換行列 $A$ は以下のように定義される：
-  $$
-  A = \boldsymbol{\Sigma}_{\text{ref}}^{1/2} \, \boldsymbol{\Sigma}_{\text{src}}^{-1/2}
-  $$  
-  色変換は以下の式で行われる：
-  $$
-  I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \times A + \mu_{\text{ref}}
-  $$
+  変換行列 $A$ は以下のように定義される：  
+  $$A = \boldsymbol{\Sigma}_{\text{ref}}^{1/2} \, \boldsymbol{\Sigma}_{\text{src}}^{-1/2}$$  
+  色変換は以下の式で行われる：  
+  $$I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \times A + \mu_{\text{ref}}$$
 
 - $I_{\text{src}}$ : 入力画像の色ベクトル
 - $\boldsymbol{\mu}_{\text{src}}$ : 入力画像の平均
@@ -41,10 +37,8 @@ Multivariate Gaussian Distribution (MVGD)は、以下の考え方に基づいて
 
 **1次元の場合（Lチャネルのみなど）**
 
-- 共分散行列 $\boldsymbol{\Sigma}$ の代わりに標準偏差 $\sigma$ を利用
-  $$
-  I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \frac{\sigma_{\text{ref}}}{\sigma_{\text{src}}} + \mu_{\text{ref}}
-  $$
+- 共分散行列 $\boldsymbol{\Sigma}$ の代わりに標準偏差 $\sigma$ を利用  
+  $$I_{\text{out}} = (I_{\text{src}} - \mu_{\text{src}}) \frac{\sigma_{\text{ref}}}{\sigma_{\text{src}}} + \mu_{\text{ref}}$$
 - 分散を利用した計算は Reinhard による色変換と同じの為、1チャンネルによる色変換の場合は Reinhard と実装上の違いはない
 
 --------------------------------------------------
